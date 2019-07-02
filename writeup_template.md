@@ -23,11 +23,11 @@ The goals / steps of this project are the following:
 [examples]: ./examples/grayscale.jpg "Grayscaling"
 [global_norm]: ./examples/random_noise.jpg "Random Noise"
 [local_norm]: ./examples/placeholder.png "Local Norm"
-[image1]: ./test_signs/image1.jpg "Traffic Sign 1"
-[image2]: ./test_signs/image2.jpg "Traffic Sign 2"
-[image3]: ./test_signs/image3.jpg "Traffic Sign 3"
-[image4]: ./test_signs/image4.jpg "Traffic Sign 4"
-[image5]: ./test_signs/image5.jpg "Traffic Sign 5"
+[image1]: ./test_signs/test_image1.jpg "Traffic Sign 1"
+[image2]: ./test_signs/test_image2.jpg "Traffic Sign 2"
+[image3]: ./test_signs/test_image3.jpg "Traffic Sign 3"
+[image4]: ./test_signs/test_image4.jpg "Traffic Sign 4"
+[image5]: ./test_signs/test_image5.jpg "Traffic Sign 5"
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
