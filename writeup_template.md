@@ -19,14 +19,15 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/visualization.jpg "Visualization"
-[image2]: ./examples/grayscale.jpg "Grayscaling"
-[image3]: ./examples/random_noise.jpg "Random Noise"
-[image4]: ./examples/placeholder.png "Traffic Sign 1"
-[image5]: ./examples/placeholder.png "Traffic Sign 2"
-[image6]: ./examples/placeholder.png "Traffic Sign 3"
-[image7]: ./examples/placeholder.png "Traffic Sign 4"
-[image8]: ./examples/placeholder.png "Traffic Sign 5"
+[bar]: ./examples/visualization.jpg "Visualization"
+[examples]: ./examples/grayscale.jpg "Grayscaling"
+[global_norm]: ./examples/random_noise.jpg "Random Noise"
+[local_norm]: ./examples/placeholder.png "Local Norm"
+[image1]: ./test_signs/image1.jpg "Traffic Sign 1"
+[image2]: ./test_signs/image2.jpg "Traffic Sign 2"
+[image3]: ./test_signs/image3.jpg "Traffic Sign 3"
+[image4]: ./test_signs/image4.jpg "Traffic Sign 4"
+[image5]: ./test_signs/image5.jpg "Traffic Sign 5"
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
@@ -42,84 +43,87 @@ You're reading it! and here is a link to my [project code](https://github.com/ud
 
 #### 1. Provide a basic summary of the data set. In the code, the analysis should be done using python, numpy and/or pandas methods rather than hardcoding results manually.
 
-I used the pandas library to calculate summary statistics of the traffic
+I used the numpy library to calculate summary statistics of the traffic
 signs data set:
 
-* The size of training set is ?
-* The size of the validation set is ?
-* The size of test set is ?
-* The shape of a traffic sign image is ?
-* The number of unique classes/labels in the data set is ?
+* The size of training set is 34799
+* The size of the validation set is 4410
+* The size of test set is 12630
+* The shape of a traffic sign image is (32, 32, 3)
+* The number of unique classes/labels in the data set is 43
 
 #### 2. Include an exploratory visualization of the dataset.
 
-Here is an exploratory visualization of the data set. It is a bar chart showing how the data ...
+Here is an exploratory visualization of the data set. It is a bar chart showing how the data is spread across the training and validation datasets.
 
-![alt text][image1]
+![alt text][bar]
+
+Here are a few example images from the traffic sign dataset.
+
+![alt_text][examples]
 
 ### Design and Test a Model Architecture
 
 #### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
 
-As a first step, I decided to convert the images to grayscale because ...
+In the first step I performed a global normalization on each image using `scikit-learn.preprocessing.normalize()`:
 
-Here is an example of a traffic sign image before and after grayscaling.
+![alt_text][global_norm]
 
-![alt text][image2]
+Next I performed a local normalization using `skimage.filiters.rank.equalize()`:
 
-As a last step, I normalized the image data because ...
+![alt_text][local_norm]
 
-I decided to generate additional data because ... 
+The motivation behind the normalization steps are described in [(Garcia, Garcia & Soria-Morillo, 2018)](https://www.sciencedirect.com/science/article/pii/S0893608018300054).
 
-To add more data to the the data set, I used the following techniques because ... 
-
-Here is an example of an original image and an augmented image:
-
-![alt text][image3]
-
-The difference between the original data set and the augmented data set is the following ... 
+Finally, I use `cv2.resize()` to resize each image to (48,48,3) for the CNN architecture described in the next step.
 
 
 #### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
 
-My final model consisted of the following layers:
+My final model consisted of the following layers derived from [(Garcia, Garcia & Soria-Morillo, 2018)](https://www.sciencedirect.com/science/article/pii/S0893608018300054) and [(Cireşan, Meier, Masci & Schmidhuber, 2011)](https://ieeexplore.ieee.org/abstract/document/6033458):
 
-| Layer         		|     Description	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Input         		| 32x32x3 RGB image   							| 
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
-| RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 16x16x64 				|
-| Convolution 3x3	    | etc.      									|
-| Fully connected		| etc.        									|
-| Softmax				| etc.        									|
-|						|												|
-|						|												|
+| Layer         		|     # of Maps & Neurons	        					| Kernel   |
+|:---------------------:|:-------------------------------:|:--------------:| 
+| 0         		| 3 maps of 48x48 neurons  							|                |
+| Convolutional     	| 100 maps of 46x46 neurons 	|    3x3         |
+| RELU					|	100 maps of 46x46 neurons											|               |
+| Max pooling	      	| 100 maps of 23x23 neurons 				|   2x2        |
+| Local norm	    | 100 maps of 23x23 neurons      									|
+| Convolutional     	| 150 maps of 20x20 neurons 	|    4x4        |
+| RELU					|	150 maps of 20x20 neurons											|               |
+| Max pooling	      	| 150 maps of 10x10 neurons 				|   2x2        |
+| Local norm	    | 150 maps of 10x10 neurons      									|
+| Convolutional     	| 250 maps of 8x8 neurons 	|    3x3         |
+| RELU					|	250 maps of 8x8 neurons											|               |
+| Max pooling	      	| 250 maps of 4x4 neurons 				|   2x2        |
+| Local norm	    | 100 maps of 23x23 neurons      									|
+| Fully Connected     	| 200 neurons 	|             |
+| RELU					|	200 neurons											|               |
+| Fully Connected     	| 43 logits 	|             |
+
  
 
 
 #### 3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
 
-To train the model, I used an ....
+To train the model, I used Adam optimization with a learning rate of .004 to minimize the softmax cross entropy loss calculated from the logits from the previous step. A batch size of 200 produced the best results when training for 10 epochs from the three batch sizes I tried (50,200,1000). After each activation (including max pooling and normalization), dropout with a keep probability of .5 was used during training
 
 #### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
-
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
+* training set accuracy of .997
+* validation set accuracy of .983 
+* test set accuracy of .962
 
 If a well known architecture was chosen:
 * What architecture was chosen?
 * Why did you believe it would be relevant to the traffic sign application?
 * How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
+
+As mentioned above, the architecture used was a combination of [(Garcia, Garcia & Soria-Morillo, 2018)](https://www.sciencedirect.com/science/article/pii/S0893608018300054) and [(Cireşan, Meier, Masci & Schmidhuber, 2011)](https://ieeexplore.ieee.org/abstract/document/6033458), where the former mentions adding a normalization after each activation layer and the latter describes the rest of the layers. These two articles are written by the winning teams for this particular dataset's classification competition. The results of this competition, among other information, can be found [here](http://benchmark.ini.rub.de/?section=gtsrb&subsection=results).
+
+The final model's accuracy on the training and validation set consistently stay within a few percent of eachother, and are both increasing throughout training indicating my model is not overfitting. The test set accuracy is lower but still well above 93% so the model will likely work well on new images.
  
 
 ### Test a Model on New Images
@@ -128,8 +132,8 @@ If a well known architecture was chosen:
 
 Here are five German traffic signs that I found on the web:
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+![alt text][image1] ![alt text][image2] ![alt text][image3] 
+![alt text][image4] ![alt text][image4]
 
 The first image might be difficult to classify because ...
 
