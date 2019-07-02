@@ -133,9 +133,9 @@ The final model's accuracy on the training and validation set consistently stay 
 Here are five German traffic signs that I found on the web:
 
 ![alt text][image1] ![alt text][image2] ![alt text][image3] 
-![alt text][image4] ![alt text][image4]
+![alt text][image4] ![alt text][image5]
 
-The first image might be difficult to classify because ...
+They should all be relatively simple to classify except for the imaes with watermarks. These may end up getting classified incorrectly since the training set didn't have watermarks. Additionally, these are higher resolution images of traffic signs, and downscaling them to 48x48 images may cause the classifier to incorrectly classify the signs.
 
 #### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
@@ -143,33 +143,65 @@ Here are the results of the prediction:
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+| Keep right      		| Keep right   									| 
+| 30 km/hr   			| 30 km/hr 										|
+| Stop					| Priority Road										|
+| Road work      		| Road work					 				|
+| Yield			| Yield      							|
 
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. The test set had an accuracy of 96%, meaning this sample had lower accuracy. However, the sample size is much smaller; a larger sample would likely bring the accuracy to a similar value as the test set.
 
 #### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
-
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+The first image is classified with near 100% certainty and is classified correctly:
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+| 1.00         			| Keep right   									| 
+| 1.24e-10     				| 34 										|
+| 5.63e-13					| 36											|
+| 2.44e-13	      			| 12					 				|
+| 1.30e-13				    | 13      							|
 
+The second image is classified correctly with 33% certainty likely due to the aspect ratio of the original image not being square causing a scaling issue when resizing to 48x48:
 
-For the second image ... 
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| .33         			| Keep right   									| 
+| .23    				| 3 										|
+| .11				| 5											|
+| .08	      			| 18					 				|
+| .07			    | 13      							|
 
-### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
-#### 1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
+The third image of a stop sign is classified incorrectly as a priority road sign with a certainty of 99.7%. This incorrect classification is interesting because of the high confidence value and should be explored more deeply to possibly improve model performance for other similar cases. Data augmentation/more data and better preprocessing would likely be the most influential in producing better results for cases like this.
+
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| .997         			| Priority road  									| 
+| .001    				| 34 										|
+| 5.2e-4				| 40											|
+| 4.0e-4	      			| 13					 				|
+| 3.7e-4			    | 38      							|
+
+The fourth image was classified correctly as road work sign with 93% confidence:
+
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| .93         			| Road work  									| 
+| .03    				| 26										|
+| .03				| 22											|
+| 2.2e-3	      			| 30					 				|
+| 5.1e-4			    | 29      							|
+
+The last image was classified worrectly with almost 100% confidence:
+
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| .9997         			| Road work  									| 
+| 1.4e-5    				| 2										|
+| 5.4e-6				| 5											|
+| 3.7e-6      			| 12					 				|
+| 1.7e-6			    | 14      							|
 
 
