@@ -17,10 +17,10 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[bar]: ./writeup_images/visualization.jpg "Visualization"
-[examples]: ./writeup_images/grayscale.jpg "Examples"
-[global_norm]: ./writeup_images/random_noise.jpg "Global Norm"
-[local_norm]: ./writeup_images/placeholder.png "Local Norm"
+[bar]: ./writeup_images/bar_graph.JPG "Visualization"
+[examples]: ./writeup_images/example_images.JPG "Examples"
+[global_norm]: ./writeup_images/global_norm.JPG "Global Norm"
+[local_norm]: ./writeup_images/local_norm.JPG "Local Norm"
 [image1]: ./test_signs/test_image1.jpg "Traffic Sign 1"
 [image2]: ./test_signs/test_image2.jpg "Traffic Sign 2"
 [image3]: ./test_signs/test_image3.jpg "Traffic Sign 3"
