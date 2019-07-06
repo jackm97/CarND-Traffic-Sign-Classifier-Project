@@ -70,7 +70,7 @@ Finally, I use `cv2.resize()` to resize each image to (48,48,3) for the CNN arch
 
 #### 2. Model Architecture
 
-My final model consisted of the following layers derived from [(Garcia, Garcia & Soria-Morillo, 2018)](https://www.sciencedirect.com/science/article/pii/S0893608018300054) and [(Cireşan, Meier, Masci & Schmidhuber, 2011)](https://ieeexplore.ieee.org/abstract/document/6033458):
+My final model consisted of the following layers derived from [(Garcia, Garcia & Soria-Morillo, 2018)](https://www.sciencedirect.com/science/article/pii/S0893608018300054) and [(Cireşan, Meier, Masci & Schmidhuber, 2011)](https://ieeexplore.ieee.org/abstract/document/6033458) and the idea to include activation layers was :
 
 | Layer         		|     # of Maps & Neurons	        					| Kernel   |
 |:---------------------:|:-------------------------------:|:--------------:| 
@@ -82,15 +82,18 @@ My final model consisted of the following layers derived from [(Garcia, Garcia &
 | Convolutional     	| 150 maps of 20x20 neurons 	|    4x4        |
 | RELU					|	150 maps of 20x20 neurons											|               |
 | Max pooling	      	| 150 maps of 10x10 neurons 				|   2x2        |
-| Local norm	    | 150 maps of 10x10 neurons      									|
+| Local norm	    | 150 maps of 10x10 neurons      								|
 | Convolutional     	| 250 maps of 8x8 neurons 	|    3x3         |
 | RELU					|	250 maps of 8x8 neurons											|               |
 | Max pooling	      	| 250 maps of 4x4 neurons 				|   2x2        |
 | Local norm	    | 100 maps of 23x23 neurons      									|
+| Flatten     	| 200 neurons 	|             |
 | Fully Connected     	| 200 neurons 	|             |
 | RELU					|	200 neurons											|               |
+| Local norm	    | 200 neurons     									|
 | Fully Connected     	| 43 logits 	|             |
 
+The architecture, excluding the normalization layers, was gathered from [(Cireşan, Meier, Masci & Schmidhuber, 2011)](https://ieeexplore.ieee.org/abstract/document/6033458) and the idea to include activation layers was gatered from [(Garcia, Garcia & Soria-Morillo, 2018)](https://www.sciencedirect.com/science/article/pii/S0893608018300054).
  
 
 
