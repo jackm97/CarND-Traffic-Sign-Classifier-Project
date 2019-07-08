@@ -1,3 +1,2 @@
-model_checkpoint_path: "CMSY8_v2"
+model_checkpoint_path: "CMSY8"
 all_model_checkpoint_paths: "CMSY8"
-all_model_checkpoint_paths: "CMSY8_v2"
