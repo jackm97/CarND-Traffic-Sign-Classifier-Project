@@ -19,8 +19,8 @@ The goals / steps of this project are the following:
 
 [bar]: ./writeup_images/bar_graph.JPG 
 [examples]: ./writeup_images/example_images.JPG
-[preprocessed]: ./writeup_images/preprocessed.JPG
-[preprocessed_test]: ./writeup_images/preprocessed_test.JPG
+[preprocessed]: ./writeup_images/preprocessing.JPG
+[preprocessed_test]: ./writeup_images/preprocessing_test.JPG
 [image1]: ./test_signs/test_image1.jpg "Traffic Sign 1"
 [image2]: ./test_signs/test_image2.jpg "Traffic Sign 2"
 [image3]: ./test_signs/test_image3.jpg "Traffic Sign 3"
